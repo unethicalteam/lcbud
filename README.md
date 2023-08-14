@@ -6,7 +6,7 @@ lunar client batch utility downloader
 <details>
    <summary>Download & Support</summary>
 
-  ### [Download Here](https://github.com/unethicalmc/lcbd/archive/refs/heads/main.zip) <br>
+  ### [Download Here](https://github.com/unethicalmc/lcbud/archive/refs/heads/main.zip) <br>
   Join our [Discord](https://discord.gg/vhJ8Dsp9qa) for faster support, or create a GitHub Issue. <br>
      
 </details>
@@ -47,4 +47,4 @@ lunar client batch utility downloader
      
 </details>
 
-###### Copyright © 2023 unethicalmc - License is: [LGPL v.3.0](https://github.com/unethicalmc/lcbd/blob/main/COPYING.LESSER).
+###### Copyright © 2023 unethicalmc - License is: [LGPL v.3.0](https://github.com/unethicalmc/lcbud/blob/main/COPYING.LESSER).
