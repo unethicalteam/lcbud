@@ -18,8 +18,7 @@ lunar client batch utility downloader
   * **An all-in-one solution.**
   * **Utilizing Windows cURL (Windows 10+).**
   * **Powershell free for security conscious users.**
-  * **Easy readability for transparency.**
-  * **Available for Linux & Windows.**
+  * **Downgrade Lunar Client Launcher to 2.16.1**
      
 </details>
 
