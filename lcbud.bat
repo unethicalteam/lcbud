@@ -12,6 +12,20 @@ if not exist "!modtargetDirectory!" (
 
 title lcbud %ver%
 
+if not exist "%localappdata%\programs\launcher\" (
+    cls
+    echo.
+    echo lcbud - Lunar Client Batch Utility Downloader: %ver%
+    echo.
+    echo Lunar Client is not installed. Downloading...
+    echo This utility would be useless to you otherwise.
+    curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v3.0.3.exe -o "Lunar Client v3.0.3.exe"
+    echo Press any key to launch the installer...
+    pause >nul
+    start "" "Lunar Client v3.0.3.exe"
+    goto :menu
+)
+
 :menu
 cls
 echo.
