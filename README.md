@@ -26,24 +26,18 @@ lunar client batch utility downloader
    <summary>Sources</summary>
   
   ### Sources
-  This project downloads from the following sources:
-  * https://github.com/Weave-MC/Weave-Loader
-  * https://github.com/Youded-byte/lunar-client-qt
-  * https://github.com/Nilsen84/lcqt2
-  * https://github.com/Nilsen84/lunar-launcher-inject
-  * https://github.com/Nilsen84/lunar-client-agents
-  * https://github.com/koxx12-dev/Weave-Raw-Input
-  * https://github.com/AriaJackie/Fractal
-  * https://github.com/Nilsen84/WeaveNoHitDelay
-  * https://github.com/PianoPenguin471/RavenWeave
-  * https://github.com/Zircta/VapeFix
-  * https://github.com/Zxnii/VanillaMenu
-  * https://github.com/Zircta/FPS
-  * https://github.com/Yan-Jobs/mm-utils
-  * https://github.com/Zircta/ToggleChat
-  * https://github.com/betterclient/Weave-mod-menu
-  * https://gitlab.com/candicey-weave/viaversion-lunar
-  * https://gitlab.com/candicey-weave/zenith-core
+  This project downloads from the following authors:
+  * https://github.com/Weave-MC
+  * https://github.com/Youded-byte
+  * https://github.com/Nilsen84
+  * https://github.com/koxx12-dev
+  * https://github.com/AriaJackie
+  * https://github.com/PianoPenguin471
+  * https://github.com/Zircta
+  * https://github.com/Zxnii
+  * https://github.com/Yan-Jobs
+  * https://github.com/betterclient
+  * https://gitlab.com/candicey-weave
      
 </details>
 

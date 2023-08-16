@@ -1,12 +1,14 @@
 @echo off
-set ver=v1.3
+set ver=v2.0
 setlocal EnableDelayedExpansion
 
 :setDefaults
-set "downloadlcqt=No"
-set "downloadlcqt2=No"
-set "downloadlli=No"
-set "downloadwl=No"
+set "modtargetDirectory=%userprofile%\.weave\mods"
+
+rem Create the mod directory if it doesn't exist
+if not exist "!modtargetDirectory!" (
+    mkdir "!modtargetDirectory!"
+)
 
 title lcbud %ver%
 
@@ -16,14 +18,10 @@ echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
 set "input="
-echo This is the main menu. 
-echo Type 1, 2, 3, or 4 to toggle, and hit enter.
-echo Or, type 5, 6, 7, or 8 to be redirected.
-echo.
-echo 1. Download Lunar Client QT: %downloadlcqt%
-echo 2. Download Lunar Client QT 2.0 (Nils): %downloadlcqt2%
-echo 3. Download Lunar Launcher Inject: %downloadlli%
-echo 4. Download Weave Loader: %downloadwl%
+echo 1. Download Lunar Client QT (Youded's Fork)
+echo 2. Download Lunar Client QT 2.0 (Nils)
+echo 3. Download Lunar Launcher Inject
+echo 4. Download Weave Loader
 echo -------------------------------------------
 echo 5. Download Agents / Mods
 echo 6. Downgrade Lunar Client Launcher to 2.16.1
@@ -31,75 +29,40 @@ echo 7. Credits
 echo 8. License
 echo 9. Exit
 echo.
-set /p input="Enter Corresponding Number and Hit Enter: "
+set /p "input=Enter Corresponding Number and Hit Enter: "
 
-if "%input%"=="1" (
-    if "%downloadlcqt%"=="No" (
-        set "downloadlcqt=Yes"
-    ) else (
-        set "downloadlcqt=No"
+set "applicationData[1]=https://github.com/Youded-byte/lunar-client-qt/releases/latest/download/windows.zip lcqt.zip"
+set "applicationData[2]=https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip lcqt2-nils.zip"
+set "applicationData[3]=https://github.com/Nilsen84/lunar-launcher-inject/releases/download/v1.3.0/lunar-launcher-inject-windows-1.3.0.exe lunar-launcher-inject.exe"
+set "applicationData[4]=https://github.com/Weave-MC/Weave-Loader/releases/download/v0.2.3/Weave-Loader-Agent-0.2.3.jar Weave-Loader-Agent-0.2.3.jar"
+
+for %%i in (1 2 3 4) do (
+    for /f "tokens=1,2" %%a in ("!applicationData[%%i]!") do (
+        if "%input%"=="%%i" (
+            call :DownloadFile "%%a" "%%b"
+            
+            rem Handling .zip files
+            if "%%b"=="lcqt.zip" (
+                mkdir lcqt
+                tar -xf "%%b" --directory ./lcqt
+                del "%%b"
+            ) else if "%%b"=="lcqt2-nils.zip" (
+                mkdir lcqt2-nils
+                tar -xf "%%b" --directory ./lcqt2-nils
+                del "%%b"
+            )
+            
+            goto :downloadCompleted
+        )
     )
-) else if "%input%"=="2" (
-    if "%downloadlcqt2%"=="No" (
-        set "downloadlcqt2=Yes"
-    ) else (
-        set "downloadlcq2t=No"
-    )
-) else if "%input%"=="3" (
-    if "%downloadlli%"=="No" (
-        set "downloadlli=Yes"
-    ) else (
-        set "downloadlli=No"
-    )
-) else if "%input%"=="4" (
-    if "%downloadwl%"=="No" (
-        set "downloadwl=Yes"
-    ) else (
-        set "downloadwl=No"
-    )
-) else if "%input%"=="5" (
-    goto :am
-) else if "%input%"=="6" (
-    goto :lcd
-) else if "%input%"=="7" (
-    goto :credits
-) else if "%input%"=="8" (
-    goto :license
-) else if "%input%"=="9" (
-    exit /b
-) else (
-    goto :start
 )
 
+if "%input%"=="5" goto :am
+if "%input%"=="6" goto :lcd
+if "%input%"=="7" goto :credits
+if "%input%"=="8" goto :license
+if "%input%"=="9" exit /b
 goto :menu
-
-:start
-cls
-if "%downloadlcqt%"=="No" if "%downloadlcqt2%"=="No" "%downloadlli%"=="No" if "%downloadwl%"=="No" goto :errorNoInstallsSelected
-
-if /i "%downloadlcqt%"=="Yes" (
-    call :DownloadFile "https://github.com/Youded-byte/lunar-client-qt/releases/latest/download/windows.zip" "lcqt.zip"
-    mkdir lcqt
-    tar -xf lcqt.zip --directory ./lcqt
-    del lcqt.zip
-)
-
-if /i "%downloadlcqt2%"=="Yes" (
-    call :DownloadFile "https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip" "lcqt2-nils.zip"
-    mkdir lcqt2-nils
-    tar -xf lcqt2-nils.zip --directory ./lcqt2-nils
-    del lcqt2-nils.zip
-)
-
-if /i "%downloadlli%"=="Yes" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-launcher-inject/releases/download/v1.3.0/lunar-launcher-inject-windows-1.3.0.exe" "lunar-launcher-inject.exe"
-)
-
-if /i "%downloadwl%"=="Yes" (
-    call :DownloadFile "https://github.com/Weave-MC/Weave-Loader/releases/download/v0.2.3/Weave-Loader-Agent-0.2.3.jar" "Weave-Loader-Agent-0.2.3.jar"
-)
-
-goto :downloadCompleted
 
 :downloadCompleted
 cls
@@ -118,20 +81,16 @@ echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
 echo 1. Agents
 echo 2. Mods
+echo -------------------------------------------
 echo 3. Back
 echo 4. Exit
 echo.
 set /p am="Enter Corresponding Number and Hit Enter: "
 
-if "%am%"=="1" (
-    goto :agents
-) else if "%am%"=="2" (
-    goto :mods
-) else if "%am%"=="3" (
-    goto :menu
-) else if "%am%"=="4" (
-    exit /b
-)
+if "%am%"=="1" goto :agents
+if "%am%"=="2" goto :mods
+if "%am%"=="3" goto :menu
+if "%am%"=="4" exit /b 
 
 :agents
 set "agents="
@@ -140,83 +99,45 @@ echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
 echo Agents:
-echo 1. CrackedAccount
-echo 2. CustomAutoGG
-echo 3. CustomLevelHead
-echo 4. HitDelayFix
-echo 5. LevelHeadNicks
-echo 6. LunarEnable
-echo 7. LunarPacksFix
-echo 8. NoPinnedServers
-echo 9. RemovePlus
-echo 10. StaffEnable
+echo  1. CrackedAccount (Not Needed for LCQT2)
+echo  2. CustomAutoGG
+echo  3. CustomLevelHead
+echo  4. HitDelayFix (Not Needed for LCQT2)
+echo  5. LevelHeadNicks
+echo  6. LunarEnable (Not Needed for LCQT2)
+echo  7. LunarPacksFix (Not Needed for LCQT2)
+echo  8. NoPinnedServers
+echo  9. RemovePlus
+echo 10. StaffEnable (Not Needed for LCQT2)
 echo 11. TeamsAutoGG
 echo -------------------------------------------
 echo 12. Back
 echo 13. Exit
 echo.
-set /p agents="Which would you like to download?: "
+set /p "agents=Which would you like to download?: "
 
-if /i "%agents%"=="1" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/CrackedAccount.jar" "CrackedAccount.jar"
-    goto :agents
+set "agentData[1]=CrackedAccount"
+set "agentData[2]=CustomAutoGG"
+set "agentData[3]=CustomLevelHead"
+set "agentData[4]=HitDelayFix"
+set "agentData[5]=LevelHeadNicks"
+set "agentData[6]=LunarEnable"
+set "agentData[7]=LunarPacksFix"
+set "agentData[8]=NoPinnedServers"
+set "agentData[9]=RemovePlus"
+set "agentData[10]=StaffEnable"
+set "agentData[11]=TeamsAutoGG"
+
+for /L %%i in (1,1,11) do (
+    if /i "%agents%"=="%%i" (
+        set "url=https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/!agentData[%%i]!.jar"
+        set "output=!agentData[%%i]!.jar"
+        call :DownloadFile !url! !output!
+        goto :agents
+    )
 )
-
-if /i "%agents%"=="2" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/CustomAutoGG.jar" "CustomAutoGG.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="3" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/CustomLevelHead.jar" "CustomLevelHead.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="4" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/HitDelayFix.jar" "HitDelayFixAgent.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="5" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/LevelHeadNicks.jar" "LevelHeadNicks.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="6" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/LunarEnable.jar" "LunarEnable.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="7" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/LunarPacksFix.jar" "LunarPacksFix.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="8" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/NoPinnedServers.jar" "NoPinnedServers.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="9" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/RemovePlus.jar" "RemovePlus.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="10" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/StaffEnable.jar" "StaffEnable.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="11" (
-    call :DownloadFile "https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/TeamsAutoGG.jar" "TeamsAutoGG.jar"
-    goto :agents
-)
-
-if /i "%agents%"=="12" goto :am
-if /i "%agents%"=="13" goto :eof
-
-echo "%agents%" is not valid
-echo.
+if "%agents%"=="12" goto :am
+if "%agents%"=="13" goto :eof
 goto :agents
 
 :mods
@@ -226,143 +147,165 @@ echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
 echo Mods:
-echo 1. Raw Input
-echo 2. NoHitDelay
-echo 3. RavenWeave [40;31m(Cheating Client)
-echo [40;37m4. Fractal [40;31m(Cheating Client)
-echo [40;37m5. VapeFix
-echo 6. VanillaMenu -  Bring back the vanilla Minecraft main menu
-echo 7. PitUtils - Hypixel Pit Utilities
-echo 8. FPS - Custom FPS Limit
-echo 9. MMUtils - Hypixel Murder Mystery Utilities
-echo 10. ToggleChat (ZenithCore Required)
-echo 11. Weave Mod Menu - A Mod Menu for Weave
-echo 12. ViaLunar - Joining 1.9+ servers from LunarClient 1.8 (ZenithCore Required)
-echo 13. ZenithCore - Dependency for mods
+echo 1. Alex Fix - Fixes a bug where Alex's arms are shifted down lower than Steve's.
+echo 2. Blood Kill Effect - Redstone particles when a player dies.
+echo 3. Cracked Account - Sail the high seas poor person.
+echo 4. Crepes - MinecraftCapes users' capes in-game. (ZenithCore Required)
+echo 5. Dulikk - Custom View Model
+echo 6. FPS - Set a custom FPS limit.
+echo 7. FPS Spoofer - Spoof your FPS.
+echo 8. Good Game - AutoGG for more servers.
+echo 9. GTB Solver - Guess the builder solver.
+echo 10. Hu Tao - Draw a dancing Hu Tao on your screen.
+echo 11. Inclumsy - Spoof your ping.
+echo 12. JumpReset - Automatically jump resets for you.
+echo 13. KeyboardFix - A fix for Linux users where "Shift-2" and "Shift-6" key combinations aren't working.
+echo 14. MMUtils - Hypixel Murder Mystery Utilities.
+echo 15. Name History - Check a users name history with a command.
+echo 16. OofMod - Play a customizable sound during events in-game.
+echo 17. PitUtils - Hypixel Pit Utilities.
+echo 18. Raw Input
+echo 19. Toggle Bobbing - Quickly toggle view bobbing.
+echo 20. Toggle Chat (ZenithCore Required)
+echo 21. VanillaMenu -  Bring back the vanilla Minecraft main menu
+echo 22. ViaLunar - Joining 1.9+ servers from LunarClient 1.8 (ZenithCore Required)
+echo 23. ZenithCore - Dependency for mods
 echo -------------------------------------------
-echo 14. Back
-echo 15. Exit
+echo 24. Cheats
+echo 25. Back
+echo 26. Exit
 echo.
 set /p mods="Which would you like to download?: "
 
-if /i "%mods%"=="1" (
-    call :DownloadFile "https://github.com/koxx12-dev/Weave-Raw-Input/releases/download/1.0.1/RawInput-1.0.1.jar" "RawInput.jar"
-    goto :mods
+set "modData[1]=https://github.com/Zircta/AlexFix/releases/download/1.1/AlexFix-1.1.jar AlexFix.jar"
+set "modData[2]=https://github.com/Zircta/BloodKillEffect/releases/download/1.1/BloodKillEffect-1.1.jar BloodKillEffect.jar"
+set "modData[3]=https://gitlab.com/candicey-weave/cracked-account/uploads/c351fccaba7d5aabc6746bff63137ba6/WeaveCrackedAccount-0.2.1.jar WeaveCrackedAccount.jar"
+set "modData[4]=https://gitlab.com/candicey-weave/crepes/uploads/94b6d61337cc03c8e55745cce5845bce/Crepes-0.1.1.jar Crepes.jar"
+set "modData[5]=https://gitlab.com/candicey-weave/dulikk/uploads/2f0c733b0ab6fa1ccd644c80b0c07eb1/Dulikk-0.1.0.jar Dulikk.jar"
+set "modData[6]=https://github.com/Zircta/FPS/releases/download/2.0/FPS-2.0.jar FPS.jar"
+set "modData[7]=https://github.com/AriaJackie/FPS-Spoofer/releases/download/release-2.0/fpsspoofer-1.1.jar fpsspoofer.jar"
+set "modData[8]=https://github.com/Zircta/GG/releases/download/3.0/GG-3.0.jar GG.jar"
+set "modData[9]=https://gitlab.com/candicey-weave/gtb-solver/uploads/d1288dbce390dbe7d98cfc1f406750fd/GTB-Solver-0.1.0.jar GTB-Solver.jar"
+set "modData[10]=https://github.com/Ultramicroscope/HuTao/releases/download/v1.1/HuTao-1.0.jar HuTao.jar"
+set "modData[11]=https://codeberg.org/Candicey-Weave/Inclumsy/releases/download/v0.1.0/Inclumsy-0.1.0.jar Inclumsy.jar"
+set "modData[12]=https://github.com/Zircta/JumpReset/releases/download/1.0/JumpReset-1.0.jar JumpReset.jar"
+set "modData[13]=https://github.com/Leo3418/mckeyboardfix/releases/download/v1.0/mckeyboardfix-1.0.jar mckeyboardfix.jar"
+set "modData[14]=https://github.com/Yan-Jobs/mm-utils/releases/download/v1/MMUtils-1.0.jar MMUtils.jar"
+set "modData[15]=https://github.com/Ultramicroscope/NameHistory/releases/download/weave-1.0/NameHistory-1.0.jar NameHistory.jar"
+set "modData[16]=https://github.com/thaYt/oofmod/releases/download/v1.0/OofMod-1.0.jar OofMod.jar"
+set "modData[17]=https://github.com/supercoolspy/PitUtilsLunar/releases/download/1.1.0/PitUtils-1.1.0.jar PitUtils.jar"
+set "modData[18]=https://github.com/koxx12-dev/Weave-Raw-Input/releases/download/1.0.1/RawInput-1.0.1.jar RawInput.jar"
+set "modData[19]=https://github.com/Zircta/Toggle-Bobbing/releases/download/1.0/ToggleBobbing-1.0.jar ToggleBobbing.jar"
+set "modData[20]=https://github.com/Zircta/ToggleChat/releases/download/1.2/ToggleChat-1.2.jar ToggleChat.jar"
+set "modData[21]=https://github.com/Zxnii/VanillaMenu/releases/download/v3.0.0/VanillaMenu-3.0.0.jar VanillaMenu.jar"
+set "modData[22]=https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba371b7abc07e0958ec559a9d9f0a30/ViaLunar-3.0.0.jar ViaLunar.jar"
+set "modData[23]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
+
+for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23) do (
+    for /f "tokens=1,2" %%a in ("!modData[%%i]!") do (
+        if "%mods%"=="%%i" (
+            call :DownloadFile "%%a" "%%b"
+            move "%%b" "!modtargetDirectory!\%%b" > nul
+            goto :mods
+        )
+    )
 )
 
-if /i "%mods%"=="2" (
-    call :DownloadFile "https://github.com/Nilsen84/WeaveNoHitDelay/releases/download/v2.0/WeaveNoHitDelay-2.0.jar" "WeaveNoHitDelay.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="3" (
-    call :DownloadFile "https://github.com/PianoPenguin471/RavenWeave/releases/download/1.1.3/RavenWeave-1.1.3.jar" "RavenWeave.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="4" (
-    call :DownloadFile "https://github.com/AriaJackie/Fractal/releases/download/release-1.2/fractal-weave-1.2.jar" "Fractal.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="5" (
-    call :DownloadFile "https://github.com/Zircta/VapeFix/releases/download/2.0/VapeFix-2.0.jar" "VapeFix.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="6" (
-    call :DownloadFile "https://github.com/Zxnii/VanillaMenu/releases/download/v3.0.0/VanillaMenu-3.0.0.jar" "VanillaMenu.jar"
-    goto :mods
-)
-
-:: if /i "%mods%"=="7" (
-::    call :DownloadFile "https://github.com/supercoolspy/PitUtilsLunar/releases/download/1.1.0/PitUtils-1.1.0.jar" "PitUtils.jar"
-::    goto :mods
-:: )
-
-if /i "%mods%"=="8" (
-    call :DownloadFile "https://github.com/Zircta/FPS/releases/download/1.0/FPS-1.0.jar" "FPS.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="9" (
-    call :DownloadFile "https://github.com/Yan-Jobs/mm-utils/releases/download/v1/MMUtils-1.0.jar" "MMUtils.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="10" (
-    call :DownloadFile "https://github.com/Zircta/ToggleChat/releases/download/1.2/ToggleChat-1.2.jar" "ToggleChat.jar"
-    goto :mods
-)
-
-:: if /i "%mods%"=="11" (
-::    call :DownloadFile "https://github.com/betterclient/Weave-mod-menu/releases/download/first/WeavedModMenu-1.0.jar" "WeavedModMenu.jar"
-::    goto :mods
-:: )
-
-if /i "%mods%"=="12" (
-    call :DownloadFile "https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba371b7abc07e0958ec559a9d9f0a30/ViaLunar-3.0.0.jar" "ViaLunar.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="13" (
-    call :DownloadFile "https://gitlab.com/candicey-weave/zenith-core/uploads/78fba051d9347fe95c102ccab338a750/Zenith-Core-1.2.0.jar" "Zenith-Core.jar"
-    goto :mods
-)
-
-if /i "%mods%"=="14" goto :am
-if /i "%mods%"=="15" goto :eof
-
-rem Disabled Mod Downloads
-if /i "%mods%"=="7" goto :errorDisabledModDownload
-if /i "%mods%"=="11" goto :errorDisabledModDownload
-
-echo "%mods%" is not valid
-echo.
+if /i "%mods%"=="24" goto :modscheats
+if /i "%mods%"=="25" goto :am
+if /i "%mods%"=="26" goto :eof
+:: rem Disabled Mod Downloads
+:: if /i "%mods%"=="X" goto :errorDisabledModDownload
 goto :mods
+
+:modscheats
+set "modscheats="
+cls
+echo.
+echo lcbud - Lunar Client Batch Utility Downloader: %ver%
+echo.
+echo Cheats:
+echo 1. Blue Client [40;31m(Cheating Client)
+echo [40;37m2. Fractal [40;31m(Cheating Client)
+echo [40;37m3. Legit-ish [40;31m(Cheating Client)
+echo [40;37m4. NoHitDelay
+echo 5. RavenWeave [40;31m(Cheating Client[40;37m, ZenithCore Required)
+echo 6. RavenWeaveLite [40;31m(Cheating Client)
+echo [40;37m7. VapeFix
+echo -------------------------------------------
+echo 8. Back
+echo 9. Exit
+echo.
+set /p modscheats="Which would you like to download?: "
+
+set "cheatData[1]=https://github.com/kacorvixon1337/blueclient/releases/download/release/blue-client.jar BlueClient"
+set "cheatData[2]=https://github.com/AriaJackie/Fractal/releases/download/release-1.2/fractal-weave-1.2.jar Fractal"
+set "cheatData[3]=https://github.com/legitish/Legit-ish-Weave/releases/download/v2.0.0-beta/legitish-2.0.0-beta.jar Legit-ish"
+set "cheatData[4]=https://github.com/Nilsen84/WeaveNoHitDelay/releases/download/v2.0/WeaveNoHitDelay-2.0.jar NoHitDelay"
+set "cheatData[5]=https://github.com/PianoPenguin471/RavenWeave/releases/download/1.1.3/RavenWeave-1.1.3.jar RavenWeave"
+set "cheatData[6]=https://github.com/PianoPenguin471/RavenWeaveLite/releases/download/bugfix/RavenWeaveLite-1.0.jar RavenWeaveLite"
+set "cheatData[7]=https://github.com/Zircta/VapeFix/releases/download/2.0/VapeFix-2.0.jar VapeFix"
+
+for %%i in (1 2 3 4 5 6 7) do (
+    for /f "tokens=1,2" %%a in ("!cheatData[%%i]!") do (
+        if "%modscheats%"=="%%i" (
+            call :DownloadFile "%%a" "%%b.jar"
+            if !errorlevel! neq 0 (
+                echo Error downloading %%b.jar.
+            ) else (
+                move "%%b.jar" "!modtargetDirectory!\%%b.jar" > nul
+            )
+            goto :modscheats
+        )
+    )
+)
+if "%modscheats%"=="8" goto :mods
+if "%modscheats%"=="9" goto :eof
+goto :modscheats
 
 :lcd
 cls
 echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
-echo Downgrading will download the Lunar Client 2.16.1 Launcher files and delete 3.0.x.
+echo [40;31mDowngrading will download the Lunar Client 2.16.1 Launcher files and delete 3.0.x.
 echo Are you sure you want to continue?
-echo -------------------------------------------
-echo Type `continue` or type `back` to go back.
+echo [40;37m-------------------------------------------
+echo Type 'Yes' to continue or type 'back' to go back.
 echo.
-set /p dg=""
+set /p "dg="
 
-if /i "%dg%"=="continue" (
-cls
-echo.
-echo lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo.
-echo Final warning, this will delete 3.0.x.
-echo unethical is not liable for any damages done to your system.
-echo Please only use this if you know what you're doing.
-echo You can quit by pressing Alt+F4 or...
-echo Press any key to continue...
-pause >nul
-goto :lclcontinue	
+if /i "%dg%"=="Yes" (
+    cls
+    echo.
+    echo lcbud - Lunar Client Batch Utility Downloader: %ver%
+    echo.
+    echo [40;31mFinal warning, this will delete 3.0.x.
+    echo unethical is not liable for any damages done to your system.
+    echo Please only use this if you know what you're doing.
+    echo [40;37mYou can quit by pressing Alt+F4 or...
+    echo Press any key to continue...
+    pause >nul
+
+    call :DownloadFile "https://cdn.discordapp.com/attachments/1140173680018735144/1140453928056672358/Lunar_Client_v2.16.1.zip" "LCL.zip"
+    
+    mkdir lcl
+    tar -xf lcl.zip --directory ./lcl
+    del LCL.zip
+    
+    rmdir /S /Q %localappdata%\programs\launcher >nul
+    xcopy /e /i /v lcl\launcher %localappdata%\programs\launcher\
+    echo Launcher files copied successfully.
+    
+    rmdir /S /Q lcl >nul
+    echo Temporary files removed.
+    echo Press any key to continue...
+    pause >nul
 )
-
 if /i "%dg%"=="back" (
-goto :menu
+    goto :menu
 )
-
-echo "%dg%" is not valid
-echo.
 goto :lcd
-
-:lclcontinue
-call :DownloadFile "https://cdn.discordapp.com/attachments/1140173680018735144/1140453928056672358/Lunar_Client_v2.16.1.zip" "LCL.zip"
-mkdir lcl
-tar -xf lcl.zip --directory ./lcl
-del LCL.zip
-rmdir /S /Q %localappdata%\programs\launcher
-xcopy /e lcl\launcher %localappdata%\programs\launcher\
-goto :menu	
 
 :credits
 cls
@@ -381,7 +324,6 @@ pause >nul
 goto :menu
 
 :license
-set "details="
 cls
 echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
@@ -395,23 +337,20 @@ echo lcbud is licensed under LGPLv3 and version 3 only.
 echo -------------------------------------------
 echo Type `back` to go back.
 echo.
-set /p details="lcbud.bat: "
+set /p "details=lcbud.bat: "
 
 if /i "%details%"=="license" (
-cls
-echo.
-echo lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo.
-echo This will open a browser window and return you to the menu.
-echo Press any key to continue...
-pause >nul
-start https://choosealicense.com/licenses/lgpl-3.0/
-goto :menu
+    cls
+    echo Opening license in browser...
+    start https://choosealicense.com/licenses/lgpl-3.0/
+    echo Press any key to continue...
+    pause >nul
 )
 
 if /i "%details%"=="back" (
-goto :menu
+    goto :menu
 )
+goto :license
 
 rem DownloadFile subroutine
 :DownloadFile
@@ -421,10 +360,23 @@ echo lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo.
 set "url=%~1"
 set "output=%~2"
-curl -L "%url%" > "%output%" 
+curl -L "%url%" > "%output%.tmp" 
+if %errorlevel% neq 0 (
+    cls
+    echo.
+    echo lcbud - Lunar Client Batch Utility Downloader: %ver%
+    echo.
+    echo Error downloading %~2.
+    echo.
+    echo Press any key to go back...
+    pause > nul
+    del "%output%.tmp" 2>nul
+    goto :eof
+)
+ren "%output%.tmp" "%output%"
 goto :eof
 
-rem Errors
+rem Errors (Unused Currently)
 :errorDisabledAgentDownload
 cls
 echo.
@@ -446,14 +398,3 @@ echo Wait for an update! Sorry for the inconvenience.
 echo.
 pause
 goto :mods
-
-:errorNoInstallsSelected
-cls
-echo.
-echo lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo.
-echo [40;31mError: [40;37mYou didn't select anything to be downloaded! 
-echo Please set at least one of the options to: Yes
-echo.
-pause
-goto :menu
