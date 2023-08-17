@@ -183,11 +183,12 @@ echo 19. Toggle Bobbing - Quickly toggle view bobbing.
 echo 20. Toggle Chat (ZenithCore Required)
 echo 21. VanillaMenu -  Bring back the vanilla Minecraft main menu
 echo 22. ViaLunar - Joining 1.9+ servers from LunarClient 1.8 (ZenithCore Required)
-echo 23. ZenithCore - Dependency for mods
+echo 23. Weave Optifine URL - Specifiy a new URL for the Optifine cape server
+echo 24. ZenithCore - Dependency for mods
 echo -------------------------------------------
-echo 24. Cheats
-echo 25. Back
-echo 26. Exit
+echo 25. Cheats
+echo 26. Back
+echo 27. Exit
 echo.
 set /p mods="Which would you like to download?: "
 
@@ -213,9 +214,10 @@ set "modData[19]=https://github.com/Zircta/Toggle-Bobbing/releases/download/1.0/
 set "modData[20]=https://github.com/Zircta/ToggleChat/releases/download/1.2/ToggleChat-1.2.jar ToggleChat.jar"
 set "modData[21]=https://github.com/Zxnii/VanillaMenu/releases/download/v3.0.0/VanillaMenu-3.0.0.jar VanillaMenu.jar"
 set "modData[22]=https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba371b7abc07e0958ec559a9d9f0a30/ViaLunar-3.0.0.jar ViaLunar.jar"
-set "modData[23]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
+set "modData[23]=https://github.com/770grappenmaker/weave-optifine-url/releases/download/v0.1/weave-optifine-url-0.1.jar weave-optifine-url.jar"
+set "modData[24]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
 
-for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23) do (
+for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24) do (
     for /f "tokens=1,2" %%a in ("!modData[%%i]!") do (
         if "%mods%"=="%%i" (
             call :DownloadFile "%%a" "%%b"
@@ -225,9 +227,9 @@ for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23) do (
     )
 )
 
-if /i "%mods%"=="24" goto :modscheats
-if /i "%mods%"=="25" goto :am
-if /i "%mods%"=="26" goto :eof
+if /i "%mods%"=="25" goto :modscheats
+if /i "%mods%"=="26" goto :am
+if /i "%mods%"=="27" goto :eof
 :: rem Disabled Mod Downloads
 :: if /i "%mods%"=="X" goto :errorDisabledModDownload
 goto :mods
