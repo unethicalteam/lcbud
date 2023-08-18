@@ -19,10 +19,10 @@ if not exist "%localappdata%\programs\launcher\" (
     echo.
     echo Lunar Client is not installed. Downloading...
     echo This utility would be useless to you otherwise.
-    curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v3.0.3.exe -o "Lunar Client v3.0.3.exe"
+    curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v3.0.4.exe -o "Lunar Client v3.0.4.exe"
     echo Press any key to launch the installer...
     pause >nul
-    start "" "Lunar Client v3.0.3.exe"
+    start "" "Lunar Client v3.0.4.exe"
     goto :menu
 )
 
