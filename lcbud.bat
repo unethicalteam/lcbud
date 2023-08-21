@@ -1,36 +1,60 @@
 @echo off
 :: Sets Defaults
 setlocal EnableDelayedExpansion
-set ver=v2.1
+set ver=v2.2
 set lunarver=3.0.5
 set "modtargetDirectory=%userprofile%\.weave\mods"
 title lcbud %ver%
 
-:: This creates the weave mod directory if it doesn't exist
-if not exist "!modtargetDirectory!" (
-    mkdir "!modtargetDirectory!"
-)
+:: Check for updates
+set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
+for /f "tokens=2 delims=:" %%I in ('curl -s "%githubAPI%" ^| find "tag_name"') do set "latestTag=%%~I"
+for %%A in ("!latestTag!") do set "latestTag=%%~A"
+:: Trim leading and trailing spaces from both versions
+set "ver=!ver: =!"
+set "latestTag=!latestTag:~1,-1!"
+:: Remove double quotes from GitHub version
+set "latestTag=!latestTag:"=!"
 
-:: This checks for Lunar Client folders and installs Lunar Client if necessary
-if not exist "%localappdata%\programs\launcher\" (
-    if not exist "%localappdata%\programs\lunarclient\" (
-        cls
-        echo.
-        echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-        echo   Created by [31munethical[0m
-        echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-        echo.
-        echo    Lunar Client is not installed. Downloading...
-        echo    This utility would be useless to you otherwise.
-        curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v!lunarver!.exe -o "Lunar Client v!lunarver!.exe"
-        echo    Press any key to launch the installer...
-        pause >nul
-        start "" "Lunar Client v!lunarver!.exe"
+if /i "!latestTag!" neq "!ver!" (
+    set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
+    echo.
+    echo   lcbud - Lunar Client Batch Utility Downloader: !ver!
+    echo   Created by [31munethical[0m
+    echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
+    echo.
+    echo   A new version of lcbud: !latestTag! was found on GitHub!
+    echo   You can download it from: [36m!githubURL![0m
+    echo   Press any key to exit...
+    pause >nul
+    exit /b
+) else (
+    :: This creates the weave mod directory if it doesn't exist
+    if not exist "!modtargetDirectory!" (
+        mkdir "!modtargetDirectory!"
+    )
+    
+    :: This checks for Lunar Client folders and installs Lunar Client if necessary
+    if not exist "%localappdata%\programs\launcher\" (
+        if not exist "%localappdata%\programs\lunarclient\" (
+            cls
+            echo.
+            echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
+            echo   Created by [31munethical[0m
+            echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
+            echo.
+            echo    Lunar Client is not installed. Downloading...
+            echo    This utility would be useless to you otherwise.
+            curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v!lunarver!.exe -o "Lunar Client v!lunarver!.exe"
+            echo    Press any key to launch the installer...
+            pause >nul
+            start "" "Lunar Client v!lunarver!.exe"
+        ) else (
+            goto :menu
+        )
     ) else (
         goto :menu
     )
-) else (
-    goto :menu
 )
 
 :menu
