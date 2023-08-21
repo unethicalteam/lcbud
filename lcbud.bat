@@ -19,31 +19,32 @@ if not exist "%localappdata%\programs\launcher\" (
     echo.
     echo Lunar Client is not installed. Downloading...
     echo This utility would be useless to you otherwise.
-    curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v3.0.4.exe -o "Lunar Client v3.0.4.exe"
+    curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v3.0.5.exe -o "Lunar Client v3.0.3.exe"
     echo Press any key to launch the installer...
     pause >nul
-    start "" "Lunar Client v3.0.4.exe"
+    start "" "Lunar Client v3.0.5.exe"
     goto :menu
 )
 
 :menu
 cls
-echo.
 echo lcbud - Lunar Client Batch Utility Downloader: %ver%
+echo made by [31munethical[0m
+echo [36mhttps://discord.gg/vhJ8Dsp9qa[0m
 echo.
 set "input="
-echo 1. Download Lunar Client QT (Youded's Fork)
-echo 2. Download Lunar Client QT 2.0 (Nils)
-echo 3. Download Lunar Launcher Inject
-echo 4. Download Weave Loader
+echo 1. [4mDownload Lunar Client QT (Youded's Fork)[0m
+echo 2. [4mDownload Lunar Client QT 2.0 (Nils)[0m
+echo 3. [4mDownload Lunar Launcher Inject[0m
+echo 4. [4mDownload Weave Loader[0m
+echo 5. [4mDownload Agents / Mods[0m
+echo 6. [4mDowngrade Lunar Client Launcher to 2.16.1[0m
 echo -------------------------------------------
-echo 5. Download Agents / Mods
-echo 6. Downgrade Lunar Client Launcher to 2.16.1
 echo 7. Credits
 echo 8. License
 echo 9. Exit
 echo.
-set /p "input=Enter Corresponding Number and Hit Enter: "
+set /p "input=Enter Corresponding Character and Hit Enter: "
 
 set "applicationData[1]=https://github.com/Youded-byte/lunar-client-qt/releases/latest/download/windows.zip lcqt.zip"
 set "applicationData[2]=https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip lcqt2-nils.zip"
