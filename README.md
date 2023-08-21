@@ -41,4 +41,4 @@ lunar client batch utility downloader
      
 </details>
 
-###### Copyright © 2023 unethicalmc - License is: [LGPL v.3.0](https://github.com/unethicalmc/lcbud/blob/main/COPYING.LESSER).
+###### Copyright © 2023 unethicalteam - License is: [LGPL v.3.0](https://github.com/unethicalmc/lcbud/blob/main/COPYING.LESSER).
