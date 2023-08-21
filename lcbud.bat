@@ -351,7 +351,7 @@ echo   Created by [31munethical[0m
 echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
 echo.
 echo   JREs:
-echo   1) GraalVM
+echo   1) GraalVM 17
 echo   2) Go Back
 echo.
 set /p jres="Select an option: "
@@ -366,24 +366,7 @@ echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo   Created by [31munethical[0m
 echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
 echo.
-echo    1) GraalVM Java 20
-echo    2) GraalVM Java 17
-echo    3) Go Back
-echo.
-set /p selection="Select an option: "
-
-set "javaVersion="
-if "%selection%"=="1" (
-    set "javaVersion=20"
-) else if "%selection%"=="2" (
-    set "javaVersion=17"
-) else if "%selection%"=="3" (
-    goto :jres
-) else (
-    goto :graalvmdownloader
-)
-
-echo Opening folder picker...
+:: Open folder picker
 for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "outputPath=%%~I"
 
 if not defined outputPath (
@@ -391,25 +374,22 @@ if not defined outputPath (
     goto :graalvmdownloader
 )
 
-set "graalFolderName=graalvm-jdk%javaVersion%-%javaVersion%"
-set "folder=%outputPath%\%graalFolderName%"
-set "zip=%graalFolderName%.zip"
-set "downloadUrl=https://download.oracle.com/graalvm/%javaVersion%/latest/graalvm-jdk-%javaVersion%_windows-x64_bin.zip"
+set "folder=%outputPath%\graalvm-jdk17"
+set "zip=graalvm-jdk17.zip"
+set "downloadUrl=https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
 
 if not exist "%zip%" (
     echo Downloading GraalVM from %downloadUrl%
     call :DownloadFile "%downloadUrl%" "%zip%"
     if errorlevel 1 (
         echo Failed to download GraalVM!
-        exit /b 1
+        goto :jres
     )
 )
 
 echo Extracting GraalVM to the specified folder...
-mkdir "%folder%"
+mkdir "%folder%" 2>nul
 tar -xzf "%zip%" -C "%folder%" --strip-components=1
-
-echo Cleaning up...
 del "%zip%" > nul 2>&1
 
 echo Completed!
