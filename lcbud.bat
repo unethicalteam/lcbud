@@ -2,7 +2,7 @@
 :: Sets Defaults
 setlocal EnableDelayedExpansion
 set ver=v2.2
-set lunarver=3.0.5
+set lunarver=3.0.6
 set "modtargetDirectory=%userprofile%\.weave\mods"
 title lcbud %ver%
 
@@ -162,13 +162,14 @@ echo   2) CustomAutoGG
 echo   3) CustomLevelHead
 echo   4) HitDelayFix (Not Needed for LCQT2)
 echo   5) LevelHeadNicks
-echo   6) LunarEnable (Not Needed for LCQT2)
-echo   7) LunarPacksFix (Not Needed for LCQT2)
-echo   8) NoPinnedServers
-echo   9) RemovePlus
-echo  10) StaffEnable (Not Needed for LCQT2)
-echo  11) TeamsAutoGG
-echo  12) Go Back
+echo   6) LunarAntiPollingRateCheck
+echo   7) LunarEnable (Not Needed for LCQT2)
+echo   8) LunarPacksFix (Not Needed for LCQT2)
+echo   9) NoPinnedServers
+echo  10) RemovePlus
+echo  11) StaffEnable (Not Needed for LCQT2)
+echo  12) TeamsAutoGG
+echo  13) Go Back
 echo.
 set /p "agents=Select an option: "
 
@@ -177,12 +178,13 @@ set "agentData[2]=CustomAutoGG"
 set "agentData[3]=CustomLevelHead"
 set "agentData[4]=HitDelayFix"
 set "agentData[5]=LevelHeadNicks"
-set "agentData[6]=LunarEnable"
-set "agentData[7]=LunarPacksFix"
-set "agentData[8]=NoPinnedServers"
-set "agentData[9]=RemovePlus"
-set "agentData[10]=StaffEnable"
-set "agentData[11]=TeamsAutoGG"
+set "agentData[6]=LunarAntiPollingRateCheck"
+set "agentData[7]=LunarEnable"
+set "agentData[8]=LunarPacksFix"
+set "agentData[9]=NoPinnedServers"
+set "agentData[10]=RemovePlus"
+set "agentData[11]=StaffEnable"
+set "agentData[12]=TeamsAutoGG"
 
 if defined agentoutputPath (
     set "folderSelection=Selected folder: !agentoutputPath!"
@@ -190,9 +192,13 @@ if defined agentoutputPath (
     set "folderSelection=No folder selected."
 )
 
-for /L %%i in (1,1,11) do (
+for /L %%i in (1,1,12) do (
     if /i "%agents%"=="%%i" (
-        set "url=https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/!agentData[%%i]!.jar"
+        if "%%i"=="6" (
+            set "url=https://github.com/Youded-byte/LunarAntiPollingRateCheck/releases/latest/download/LunarAntiPollingRateCheck.jar"
+        ) else (
+            set "url=https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/!agentData[%%i]!.jar"
+        )
         set "output=!agentData[%%i]!.jar"
         :: Verify if the selected folder exists
         if not exist "!agentoutputPath!\" (
@@ -246,7 +252,7 @@ echo  14) MMUtils - Hypixel Murder Mystery Utilities.
 echo  15) Name History - Check a user's name history with a command.
 echo  16) OofMod - Play a customizable sound during in-game events.
 echo  17) PitUtils - Hypixel Pit Utilities.
-echo  18) Raw Input
+echo  18) Raw Input (Not Needed for LCQT2)
 echo  19) Toggle Bobbing - Quickly toggle view bobbing.
 echo  20. Toggle Chat (ZenithCore Required)
 echo  21) VanillaMenu - Bring back the vanilla Minecraft main menu.
@@ -310,7 +316,7 @@ echo   Cheats:
 echo   1) Blue Client [40;31m(Cheating Client)[40;37m
 echo   2) Fractal [40;31m(Cheating Client)[40;37m
 echo   3) Legit-ish [40;31m(Cheating Client)[40;37m
-echo   4) NoHitDelay
+echo   4) NoHitDelay (Not needed for LCQT2)
 echo   5) RavenWeave [40;31m(Cheating Client[40;37m, ZenithCore Required)
 echo   6) RavenWeaveLite [40;31m(Cheating Client)[40;37m
 echo   7) VapeFix
@@ -324,7 +330,7 @@ set "cheatData[3]=https://github.com/legitish/Legit-ish-Weave/releases/download/
 set "cheatData[4]=https://github.com/Nilsen84/WeaveNoHitDelay/releases/download/v2.0/WeaveNoHitDelay-2.0.jar NoHitDelay"
 set "cheatData[5]=https://github.com/PianoPenguin471/RavenWeave/releases/download/1.1.3/RavenWeave-1.1.3.jar RavenWeave"
 set "cheatData[6]=https://github.com/PianoPenguin471/RavenWeaveLite/releases/download/bugfix/RavenWeaveLite-1.0.jar RavenWeaveLite"
-set "cheatData[7]=https://github.com/Zircta/VapeFix/releases/download/2.0/VapeFix-2.0.jar VapeFix"
+set "cheatData[7]=https://github.com/Syz66/VapeFix/releases/download/1.1/VapeFix-1.1.jar VapeFix"
 
 for %%i in (1 2 3 4 5 6 7) do (
     for /f "tokens=1,2" %%a in ("!cheatData[%%i]!") do (
