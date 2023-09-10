@@ -83,7 +83,7 @@ set /p "input=Enter the corresponding number and press Enter: "
 
 :: Array for handling download links
 set "applicationData[1]=https://github.com/Youded-byte/lunar-client-qt/releases/latest/download/windows.zip lcqt.zip"
-set "applicationData[2]=https://github.com/Nilsen84/lcqt2/releases/latest/download/windows-portable.zip lcqt2-nils.zip"
+set "applicationData[2]=https://github.com/uchks/notqt2/releases/latest/download/windows-portable.zip lcqt2-nils.zip"
 set "applicationData[3]=https://github.com/Nilsen84/lunar-launcher-inject/releases/download/v1.3.0/lunar-launcher-inject-windows-1.3.0.exe lunar-launcher-inject.exe"
 set "applicationData[4]=https://github.com/Weave-MC/Weave-Loader/releases/download/v0.2.3/Weave-Loader-Agent-0.2.3.jar Weave-Loader-Agent-0.2.3.jar"
 
