@@ -1,7 +1,7 @@
 @echo off
 :: Sets Defaults
 setlocal EnableDelayedExpansion
-set ver=v2.2
+set ver=v2.3
 set lunarver=3.0.9
 set "modtargetDirectory=%userprofile%\.weave\mods"
 title lcbud %ver%
