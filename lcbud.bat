@@ -244,27 +244,30 @@ echo   6) Dulikk - Custom View Model
 echo   7) FPS - Set a custom FPS limit.
 echo   8) Good Game - AutoGG for more servers.
 echo   9) GTB Solver - Guess the builder solver.
-echo  10) Hu Tao - Draw a dancing Hu Tao on your screen.
-echo  11) Inclumsy - Spoof your ping.
-echo  12) JumpReset - Automatically jump resets for you.
-echo  13) KeyboardFix - Fix for Linux users where "Shift-2" and "Shift-6" key combinations don't work.
-echo  14) MMUtils - Hypixel Murder Mystery Utilities.
-echo  15) Name History - Check a user's name history with a command.
-echo  16) OofMod - Play a customizable sound during in-game events.
-echo  17) PitUtils - Hypixel Pit Utilities.
-echo  18) Raw Input (Not Needed for LCQT2)
-echo  19) Toggle Bobbing - Quickly toggle view bobbing.
-echo  20) Toggle Chat (ZenithCore Required)
-echo  21) VanillaMenu - Bring back the vanilla Minecraft main menu.
-echo  22) ViaLunar - Join 1.9+ servers from LunarClient 1.8 (ZenithCore Required)
-echo  23) WeaveChamsMod - Render players over blocks, see players through walls!
-echo  24) Weave Optifine URL - Specify a new URL for the Optifine cape server.
-echo  25) WeaveQuickReport - quickreport mod rewritten for Weave. Also comes with autododge.
-echo  26) Concentra - Dependency for mods.
-echo  27) ZenithCore - Dependency for mods.
+echo  10) Hit Fire - Hitting an entity sets it on fire for 1.5 seconds.
+echo  11) Hu Tao - Draw a dancing Hu Tao on your screen.
+echo  12) Inclumsy - Spoof your ping.
+echo  13) JumpReset - Automatically jump resets for you.
+echo  14) KeyboardFix - Fix for Linux users where "Shift-2" and "Shift-6" key combinations don't work.
+echo  15) MMUtils - Hypixel Murder Mystery Utilities.
+echo  16) Name History - Check a user's name history with a command.
+echo  17) OofMod - Play a customizable sound during in-game events.
+echo  18) PitUtils - Hypixel Pit Utilities.
+echo  19) Projectile Trail - Creates particles behind arrows, fishing rod hooks, and throwables.
+echo  20) Raw Input (Not Needed for LCQT2)
+echo  21) Sulfur - A port of Phosphor.
+echo  22) Toggle Bobbing - Quickly toggle view bobbing.
+echo  23) Toggle Chat (ZenithCore Required)
+echo  24) VanillaMenu - Bring back the vanilla Minecraft main menu.
+echo  25) ViaLunar - Join 1.9+ servers from LunarClient 1.8 (ZenithCore Required)
+echo  26) WeaveChamsMod - Render players over blocks, see players through walls!
+echo  27) Weave Optifine URL - Specify a new URL for the Optifine cape server.
+echo  28) WeaveQuickReport - quickreport mod rewritten for Weave. Also comes with autododge.
+echo  29) Concentra - Dependency for mods.
+echo  30) ZenithCore - Dependency for mods.
 echo   -------------------------------------------
-echo  28) Cheats
-echo  29) Go Back
+echo  31) Cheats
+echo  32) Go Back
 echo.
 set /p mods="Select an option: "
 
@@ -277,24 +280,27 @@ set "modData[6]=https://gitlab.com/candicey-weave/dulikk/uploads/2f0c733b0ab6fa1
 set "modData[7]=https://github.com/Syz66/FPS/releases/download/2.0/FPS-2.0.jar FPS.jar"
 set "modData[8]=https://github.com/Syz66/GG/releases/download/3.0/GG-3.0.jar GG.jar"
 set "modData[9]=https://gitlab.com/candicey-weave/gtb-solver/uploads/d1288dbce390dbe7d98cfc1f406750fd/GTB-Solver-0.1.0.jar GTB-Solver.jar"
-set "modData[10]=https://github.com/Ultramicroscope/HuTao/releases/download/v1.1/HuTao-1.0.jar HuTao.jar"
-set "modData[11]=https://codeberg.org/Candicey-Weave/Inclumsy/releases/download/v0.1.0/Inclumsy-0.1.0.jar Inclumsy.jar"
-set "modData[12]=https://github.com/Syz66/JumpReset/releases/download/1.0/JumpReset-1.0.jar JumpReset.jar"
-set "modData[13]=https://github.com/koxx12-dev/Weave-KeyboardFix/releases/download/1.0/Weave-KeyboardFix-1.0.jar Weave-KeyboardFix.jar"
-set "modData[14]=https://github.com/Yan-Jobs/mm-utils/releases/download/v1/MMUtils-1.0.jar MMUtils.jar"
-set "modData[15]=https://github.com/Ultramicroscope/NameHistory/releases/download/weave-1.0/NameHistory-1.0.jar NameHistory.jar"
-set "modData[16]=https://github.com/thaYt/oofmod/releases/download/v1.0/OofMod-1.0.jar OofMod.jar"
-set "modData[17]=https://github.com/supercoolspy/PitUtilsLunar/releases/download/1.1.0/PitUtils-1.1.0.jar PitUtils.jar"
-set "modData[18]=https://github.com/koxx12-dev/Weave-Raw-Input/releases/download/1.0.1/RawInput-1.0.1.jar RawInput.jar"
-set "modData[19]=https://github.com/Syz66/Toggle-Bobbing/releases/download/1.0/ToggleBobbing-1.0.jar ToggleBobbing.jar"
-set "modData[20]=https://github.com/Syz66/ToggleChat/releases/download/1.2/ToggleChat-1.2.jar ToggleChat.jar"
-set "modData[21]=https://github.com/Zxnii/VanillaMenu/releases/download/v3.0.0/VanillaMenu-3.0.0.jar VanillaMenu.jar"
-set "modData[22]=https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba371b7abc07e0958ec559a9d9f0a30/ViaLunar-3.0.0.jar ViaLunar.jar"
-set "modData[23]=https://github.com/Tryflle/WeaveChamsMod/releases/download/1.0-beta/WeaveChamsMod-1.0.jar WeaveChamsMod.jar"
-set "modData[24]=https://github.com/770grappenmaker/weave-optifine-url/releases/download/v0.1/weave-optifine-url-0.1.jar weave-optifine-url.jar"
-set "modData[25]=https://github.com/Tryflle/WeaveQuickReport/releases/download/1.1/WeaveQuickReport-1.1.jar WeaveQuickReport.jar"
-set "modData[26]=https://gitlab.com/candicey-weave/concentra/uploads/d98db13bbff7ca5bb27d5769646c003c/Concentra-0.1.2.jar Concentra.jar"
-set "modData[27]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
+set "modData[10]=https://codeberg.org/chloe/HitFire/releases/download/1.0/HitFire-1.0.jar HitFire.jar"
+set "modData[11]=https://github.com/Ultramicroscope/HuTao/releases/download/v1.1/HuTao-1.0.jar HuTao.jar"
+set "modData[12]=https://codeberg.org/Candicey-Weave/Inclumsy/releases/download/v0.1.0/Inclumsy-0.1.0.jar Inclumsy.jar"
+set "modData[13]=https://github.com/Syz66/JumpReset/releases/download/1.0/JumpReset-1.0.jar JumpReset.jar"
+set "modData[14]=https://github.com/koxx12-dev/Weave-KeyboardFix/releases/download/1.0/Weave-KeyboardFix-1.0.jar Weave-KeyboardFix.jar"
+set "modData[15]=https://github.com/Yan-Jobs/mm-utils/releases/download/v1/MMUtils-1.0.jar MMUtils.jar"
+set "modData[16]=https://github.com/Ultramicroscope/NameHistory/releases/download/weave-1.0/NameHistory-1.0.jar NameHistory.jar"
+set "modData[17]=https://github.com/thaYt/oofmod/releases/download/v1.0/OofMod-1.0.jar OofMod.jar"
+set "modData[18]=https://github.com/supercoolspy/PitUtilsLunar/releases/download/1.1.0/PitUtils-1.1.0.jar PitUtils.jar"
+set "modData[19]=https://codeberg.org/chloe/ProjectileTrail/releases/download/1.0/ProjectileTrail-1.0.jar ProjectileTrail.jar"
+set "modData[20]=https://github.com/koxx12-dev/Weave-Raw-Input/releases/download/1.0.1/RawInput-1.0.1.jar RawInput.jar"
+set "modData[21]=https://codeberg.org/chloe/Sulfur/releases/download/1.0/Sulfur-1.0.jar Sulfur.jar"
+set "modData[22]=https://github.com/Syz66/Toggle-Bobbing/releases/download/1.0/ToggleBobbing-1.0.jar ToggleBobbing.jar"
+set "modData[23]=https://github.com/Syz66/ToggleChat/releases/download/1.2/ToggleChat-1.2.jar ToggleChat.jar"
+set "modData[24]=https://github.com/Zxnii/VanillaMenu/releases/download/v3.0.0/VanillaMenu-3.0.0.jar VanillaMenu.jar"
+set "modData[25]=https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba371b7abc07e0958ec559a9d9f0a30/ViaLunar-3.0.0.jar ViaLunar.jar"
+set "modData[26]=https://github.com/Tryflle/WeaveChamsMod/releases/download/1.0-beta/WeaveChamsMod-1.0.jar WeaveChamsMod.jar"
+set "modData[27]=https://github.com/770grappenmaker/weave-optifine-url/releases/download/v0.1/weave-optifine-url-0.1.jar weave-optifine-url.jar"
+set "modData[28]=https://github.com/Tryflle/WeaveQuickReport/releases/download/1.1/WeaveQuickReport-1.1.jar WeaveQuickReport.jar"
+set "modData[29]=https://gitlab.com/candicey-weave/concentra/uploads/d98db13bbff7ca5bb27d5769646c003c/Concentra-0.1.2.jar Concentra.jar"
+set "modData[30]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
 
 for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24) do (
     for /f "tokens=1,2" %%a in ("!modData[%%i]!") do (
@@ -306,8 +312,8 @@ for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24) do (
     )
 )
 
-if /i "%mods%"=="28" goto :modscheats
-if /i "%mods%"=="29" goto :am
+if /i "%mods%"=="31" goto :modscheats
+if /i "%mods%"=="32" goto :am
 goto :mods
 
 :modscheats
