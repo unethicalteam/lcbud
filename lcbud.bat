@@ -237,7 +237,7 @@ echo.
 echo   Mods:
 echo   1) Alex Fix - Fixes a bug where Alex's arms are shifted down lower than Steve's.
 echo   2) Blood Kill Effect - Redstone particles when a player dies.
-echo   3) Blurer - A mod that gives you smoooooth blur effects. (ZenitchCore & Concentra Required)
+echo   3) Blurer - A mod that gives you smoooooth blur effects. (ZenitchCore Required, Temporarily Not Available)
 echo   4) Cracked Account - Sail the high seas with a poor person's account.
 echo   5) Crepes - Display MinecraftCapes users' capes in-game. (ZenithCore Required)
 echo   6) Dulikk - Custom View Model
@@ -263,7 +263,6 @@ echo  25) ViaLunar - Join 1.9+ servers from LunarClient 1.8 (ZenithCore Required
 echo  26) WeaveChamsMod - Render players over blocks, see players through walls!
 echo  27) Weave Optifine URL - Specify a new URL for the Optifine cape server.
 echo  28) WeaveQuickReport - quickreport mod rewritten for Weave. Also comes with autododge.
-echo  29) Concentra - Dependency for mods.
 echo  30) ZenithCore - Dependency for mods.
 echo   -------------------------------------------
 echo  31) Cheats
@@ -299,10 +298,9 @@ set "modData[25]=https://gitlab.com/candicey-weave/viaversion-lunar/uploads/9ba3
 set "modData[26]=https://github.com/Tryflle/WeaveChamsMod/releases/download/1.0-beta/WeaveChamsMod-1.0.jar WeaveChamsMod.jar"
 set "modData[27]=https://github.com/770grappenmaker/weave-optifine-url/releases/download/v0.1/weave-optifine-url-0.1.jar weave-optifine-url.jar"
 set "modData[28]=https://github.com/Tryflle/WeaveQuickReport/releases/download/1.1/WeaveQuickReport-1.1.jar WeaveQuickReport.jar"
-set "modData[29]=https://gitlab.com/candicey-weave/concentra/uploads/d98db13bbff7ca5bb27d5769646c003c/Concentra-0.1.2.jar Concentra.jar"
-set "modData[30]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
+set "modData[29]=https://codeberg.org/Candicey-Weave/Zenith-Core/releases/download/v1.3.7/Zenith-Core-1.3.7.jar Zenith-Core.jar"
 
-for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24) do (
+for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29) do (
     for /f "tokens=1,2" %%a in ("!modData[%%i]!") do (
         if "%mods%"=="%%i" (
             call :DownloadFile "%%a" "%%b"
@@ -312,8 +310,8 @@ for %%i in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24) do (
     )
 )
 
-if /i "%mods%"=="31" goto :modscheats
-if /i "%mods%"=="32" goto :am
+if /i "%mods%"=="30" goto :modscheats
+if /i "%mods%"=="31" goto :am
 goto :mods
 
 :modscheats
