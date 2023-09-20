@@ -33,7 +33,7 @@ lunar client batch utility downloader
   * https://github.com/koxx12-dev
   * https://github.com/AriaJackie
   * https://github.com/PianoPenguin471
-  * https://github.com/Zircta
+  * https://github.com/Syz66
   * https://github.com/Zxnii
   * https://github.com/Yan-Jobs
   * https://github.com/betterclient
