@@ -58,12 +58,13 @@ echo   2) Download Lunar Client QT 2.0 (Nils)
 echo   3) Download Lunar Launcher Inject
 echo   4) Download Weave Loader
 echo   5) Download Agents / Mods
-echo   6) Download JREs
-echo   7) Downgrade Lunar Client Launcher to 2.16.1
+echo   6) Download Utilities
+echo   7) Download JREs
+echo   8) Downgrade Lunar Client Launcher to 2.16.1
 echo   -------------------------------------------
-echo   8) View Credits
-echo   9) View License
-echo   10) Exit
+echo   9) View Credits
+echo  10) View License
+echo  11) Exit
 echo.
 set /p "input=Enter the corresponding number and press Enter: "
 
@@ -96,13 +97,13 @@ for %%i in (1 2 3 4) do (
     )
 )
 
-:: Handle other menu options
 if "%input%"=="5" goto :am
-if "%input%"=="6" goto :jres
-if "%input%"=="7" goto :lcd
-if "%input%"=="8" goto :credits
-if "%input%"=="9" goto :license
-if "%input%"=="10" exit /b
+if "%input%"=="6" goto :utilities
+if "%input%"=="7" goto :jres
+if "%input%"=="8" goto :lcd
+if "%input%"=="9" goto :credits
+if "%input%"=="10" goto :licenses
+if "%input%"=="11" exit /b
 goto :menu
 
 :am
@@ -112,6 +113,7 @@ echo   What would you like to do?
 echo.
 echo   1) Download Agents
 echo   2) Download Mods
+echo   -------------------------------------------
 echo   3) Go Back
 echo.
 set /p am="Select an option: "
@@ -136,6 +138,7 @@ echo   9) NoPinnedServers
 echo  10) RemovePlus
 echo  11) StaffEnable (Not Needed for LCQT2)
 echo  12) TeamsAutoGG
+echo   -------------------------------------------
 echo  13) Go Back
 echo.
 set /p "agents=Select an option: "
@@ -279,6 +282,7 @@ echo   3) NoHitDelay (Not needed for LCQT2)
 echo   4) RavenWeave [40;31m(Cheating Client[40;37m, ZenithCore Required)
 echo   5) RavenWeaveLite [40;31m(Cheating Client)[40;37m
 echo   6) VapeFix (Requires Vape V4/Lite)
+echo   -------------------------------------------
 echo   7) Go Back
 echo.
 set /p modscheats="Select an option: "
@@ -306,11 +310,51 @@ for %%i in (1 2 3 4 5 6) do (
 if "%modscheats%"=="7" goto :mods
 goto :modscheats
 
+:utilities
+set "tools="
+call :Header
+echo   Utilities:
+echo   1) clumsy - Simulate network latency, delay, packet loss.
+echo   2) Lilith - Hypixel proxy to improve user experience.
+echo   -------------------------------------------
+echo   3) Go Back
+
+set /p tools="Select an option: "
+
+set "utilityData[1]=https://github.com/jagt/clumsy/releases/download/0.3rc4/clumsy-0.3rc4-win32-a.zip clumsy.zip"
+
+for %%i in (1) do (
+    for /f "tokens=1,2" %%a in ("!utilityData[%%i]!") do (
+        if "%tools%"=="1" (
+            call :DownloadFile "%%a" "%%b"
+            
+            if "%%b"=="clumsy.zip" (
+                mkdir clumsy
+                tar -xf "%%b" --directory ./clumsy
+                del "%%b"
+            
+                call :Header
+                echo   Download Completed.
+                timeout /t 2 > nul
+            )
+            
+            goto :utilities
+        )
+    )
+)
+
+if "%tools%"=="2" (
+    start https://docs.lilith.rip/lilith/install/windows
+    goto :utilities
+)
+if "%tools%"=="3" goto :menu
+
 :jres
 set "jres="
 call :Header
 echo   JREs:
 echo   1) GraalVM 17
+echo   -------------------------------------------
 echo   2) Go Back
 echo.
 set /p jres="Select an option: "
@@ -320,7 +364,6 @@ if "%jres%"=="2" goto :menu
 
 :graalvmdownloader
 call :Header
-:: Open folder picker
 for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "outputPath=%%~I"
 
 if not defined outputPath (
@@ -361,7 +404,7 @@ set /p "dg="
 
 if /i "%dg%"=="Yes" (
     call :Header
-    echo [40;31mFinal warning, this will delete 3.0.x.
+    echo [40;31mFinal warning, this will delete version 3.
     echo unethical is not liable for any damages done to your system.
     echo Please only use this if you know what you're doing.
     echo [40;37mYou can quit by pressing Alt+F4 or...
@@ -409,7 +452,7 @@ goto :menu
 
 :license
 call :Header
-echo   lcbud Copyright (C) 2023 unethicalmc
+echo   lcbud Copyright (C) 2023 unethicalteam
 echo   This program comes with ABSOLUTELY NO WARRANTY.
 echo   This is free software, and you are welcome to redistribute it
 echo   under certain conditions; type `license` to view the license in a browser.
