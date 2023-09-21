@@ -24,21 +24,30 @@ lunar client batch utility downloader
 
 <details>
    <summary>Sources</summary>
-  
+   
   ### Sources
   This project downloads from the following authors:
   * https://github.com/Weave-MC
   * https://github.com/Youded-byte
   * https://github.com/Nilsen84
   * https://github.com/koxx12-dev
-  * https://github.com/AriaJackie
   * https://github.com/PianoPenguin471
   * https://github.com/Syz66
   * https://github.com/Zxnii
   * https://github.com/Yan-Jobs
   * https://github.com/betterclient
   * https://gitlab.com/candicey-weave
-     
+  * https://codeberg.org/Candicey-Weave
+  * https://github.com/uchks
+  * https://codeberg.org/chloe
+  * https://github.com/Ultramicroscope
+  * https://github.com/thaYt
+  * https://github.com/supercoolspy
+  * https://github.com/Tryflle
+  * https://github.com/770grappenmaker
+  * https://github.com/legitish
+  * https://github.com/kacorvixon1337
+  * https://github.com/jagt
 </details>
 
-###### Copyright © 2023 unethicalteam - License is: [LGPL v.3.0](https://github.com/unethicalmc/lcbud/blob/main/COPYING.LESSER).
+###### Copyright © 2023 unethicalteam - License is: [LGPL v.3.0](https://github.com/unethicalteam/lcbud/blob/main/COPYING.LESSER).
