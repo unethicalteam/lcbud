@@ -1,48 +1,30 @@
 @echo off
-:: Sets Defaults
 setlocal EnableDelayedExpansion
 set ver=v2.4
 set lunarver=3.1.0
 set "modtargetDirectory=%userprofile%\.weave\mods"
+set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
+set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
 title lcbud %ver%
 
-:: Check for updates
-set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
 for /f "tokens=2 delims=:" %%I in ('curl -s "%githubAPI%" ^| find "tag_name"') do set "latestTag=%%~I"
-for %%A in ("!latestTag!") do set "latestTag=%%~A"
-:: Trim leading and trailing spaces from both versions
-set "ver=!ver: =!"
 set "latestTag=!latestTag:~1,-1!"
-:: Remove double quotes from GitHub version
 set "latestTag=!latestTag:"=!"
-
 if /i "!latestTag!" neq "!ver!" (
-    set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
-    echo.
-    echo   lcbud - Lunar Client Batch Utility Downloader: !ver!
-    echo   Created by [31munethical[0m
-    echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-    echo.
+    call :Header
     echo   A new version of lcbud: !latestTag! was found on GitHub!
     echo   You can download it from: [36m!githubURL![0m
     echo   Press any key to exit...
     pause >nul
     exit /b
 ) else (
-    :: This creates the weave mod directory if it doesn't exist
     if not exist "!modtargetDirectory!" (
         mkdir "!modtargetDirectory!"
     )
     
-    :: This checks for Lunar Client folders and installs Lunar Client if necessary
     if not exist "%localappdata%\programs\launcher\" (
         if not exist "%localappdata%\programs\lunarclient\" (
-            cls
-            echo.
-            echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-            echo   Created by [31munethical[0m
-            echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-            echo.
+            call :Header
             echo    Lunar Client is not installed. Downloading...
             echo    This utility would be useless to you otherwise.
             curl https://launcherupdates.lunarclientcdn.com/Lunar%%20Client%%20v!lunarver!.exe -o "Lunar Client v!lunarver!.exe"
@@ -57,13 +39,17 @@ if /i "!latestTag!" neq "!ver!" (
     )
 )
 
-:menu
+:Header
 cls
 echo.
 echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo   Created by [31munethical[0m
 echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
 echo.
+goto :eof
+
+:menu
+call :Header
 set "input="
 echo   Select an option:
 echo.
@@ -81,19 +67,16 @@ echo   10) Exit
 echo.
 set /p "input=Enter the corresponding number and press Enter: "
 
-:: Array for handling download links
 set "applicationData[1]=https://github.com/Youded-byte/lunar-client-qt/releases/latest/download/windows.zip lcqt.zip"
 set "applicationData[2]=https://github.com/uchks/notqt2/releases/latest/download/windows-portable.zip lcqt2-nils.zip"
 set "applicationData[3]=https://github.com/Nilsen84/lunar-launcher-inject/releases/download/v1.3.0/lunar-launcher-inject-windows-1.3.0.exe lunar-launcher-inject.exe"
 set "applicationData[4]=https://github.com/Weave-MC/Weave-Loader/releases/download/v0.2.4/Weave-Loader-Agent-0.2.4.jar Weave-Loader-Agent-0.2.4.jar"
 
-:: Iterate through options and handle downloads
 for %%i in (1 2 3 4) do (
     for /f "tokens=1,2" %%a in ("!applicationData[%%i]!") do (
         if "%input%"=="%%i" (
             call :DownloadFile "%%a" "%%b"
             
-            :: Handling .zip files
             if "%%b"=="lcqt.zip" (
                 mkdir lcqt
                 tar -xf "%%b" --directory ./lcqt --strip-components=1
@@ -104,13 +87,7 @@ for %%i in (1 2 3 4) do (
                 del "%%b"
             )
             
-            :: Download completed message
-            cls
-            echo.
-            echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-            echo   Created by [31munethical[0m
-            echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-            echo.
+            call :Header
             echo   Download Completed.
             timeout /t 2 > nul
             
@@ -130,12 +107,7 @@ goto :menu
 
 :am
 set "am="
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   What would you like to do?
 echo.
 echo   1) Download Agents
@@ -150,12 +122,7 @@ if "%am%"=="3" goto :menu
 
 :agents
 set "agents="
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   Agents:
 echo   1) CrackedAccount (Not Needed for LCQT2)
 echo   2) CustomAutoGG
@@ -200,7 +167,6 @@ for /L %%i in (1,1,12) do (
             set "url=https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/!agentData[%%i]!.jar"
         )
         set "output=!agentData[%%i]!.jar"
-        :: Verify if the selected folder exists
         if not exist "!agentoutputPath!\" (
             echo The selected folder does not exist.
             set "agentoutputPath="
@@ -223,17 +189,12 @@ for /L %%i in (1,1,12) do (
     )
 )
 
-if "%agents%"=="12" goto :am
+if "%agents%"=="13" goto :am
 goto :agents
 
 :mods
 set "mods="
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   Mods:
 echo   1) Alex Fix - Fixes a bug where Alex's arms are shifted down lower than Steve's.
 echo   2) Blood Kill Effect - Redstone particles when a player dies.
@@ -310,12 +271,7 @@ goto :mods
 
 :modscheats
 set "modscheats="
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   Cheats:
 echo   1) Blue Client [40;31m(Cheating Client)[40;37m
 echo   2) Legit-ish [40;31m(Cheating Client)[40;37m
@@ -347,17 +303,12 @@ for %%i in (1 2 3 4 5 6) do (
         )
     )
 )
-if "%modscheats%"=="8" goto :mods
+if "%modscheats%"=="7" goto :mods
 goto :modscheats
 
 :jres
 set "jres="
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   JREs:
 echo   1) GraalVM 17
 echo   2) Go Back
@@ -368,12 +319,7 @@ if "%jres%"=="1" goto :graalvmdownloader
 if "%jres%"=="2" goto :menu
 
 :graalvmdownloader
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 :: Open folder picker
 for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "outputPath=%%~I"
 
@@ -405,13 +351,8 @@ timeout /t 2 > nul
 goto :jres
 
 :lcd
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
-echo   [40;31mDowngrading will download the Lunar Client 2.16.1 Launcher files and delete 3.0.x.
+call :Header
+echo   [40;31mDowngrading will download the Lunar Client 2.16.1 Launcher files and delete version 3.
 echo   Are you sure you want to continue?[40;37m
 echo   -------------------------------------------
 echo   Type 'Yes' to continue or type 'back' to go back.
@@ -419,12 +360,7 @@ echo.
 set /p "dg="
 
 if /i "%dg%"=="Yes" (
-    cls
-    echo.
-    echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-    echo   Created by [31munethical[0m
-    echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-    echo.
+    call :Header
     echo [40;31mFinal warning, this will delete 3.0.x.
     echo unethical is not liable for any damages done to your system.
     echo Please only use this if you know what you're doing.
@@ -453,12 +389,7 @@ if /i "%dg%"=="back" (
 goto :lcd
 
 :credits
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   Lunar Client QTs:
 echo     Youded-Byte (QT) - [36mhttps://github.com/Youded-byte/lunar-client-qt[0m
 echo     Nilsen84 (QT 2.0) - [36mhttps://github.com/Nilsen84[0m
@@ -477,12 +408,7 @@ pause >nul
 goto :menu
 
 :license
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 echo   lcbud Copyright (C) 2023 unethicalmc
 echo   This program comes with ABSOLUTELY NO WARRANTY.
 echo   This is free software, and you are welcome to redistribute it
@@ -509,22 +435,12 @@ goto :license
 
 :: Handles downloading files via cURL
 :DownloadFile
-cls
-echo.
-echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-echo.
+call :Header
 set "url=%~1"
 set "output=%~2"
 curl -L "%url%" > "!output!.tmp" 
 if !errorlevel! neq 0 (
-    cls
-    echo.
-    echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
-    echo   Created by [31munethical[0m
-    echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
-    echo.
+    call :Header
     echo Error downloading "!output!".
     echo.
     timeout /t 2 > nul
