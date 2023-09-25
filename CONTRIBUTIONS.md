@@ -17,5 +17,4 @@
 ### deniable contributions
 - grammatical errors, make an issue.
 - updating a download link, make an issue.
-- attempting to adopt powershell, fuck off <3.
 - dumb shit, fuck off <3.
