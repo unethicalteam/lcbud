@@ -61,10 +61,11 @@ echo   5) Download Agents / Mods
 echo   6) Download Utilities
 echo   7) Download JREs
 echo   8) Downgrade Lunar Client Launcher to 2.16.1
+echo   9) Backup multiver
 echo   -------------------------------------------
-echo   9) View Credits
-echo  10) View License
-echo  11) Exit
+echo  10) View Credits
+echo  11) View License
+echo  12) Exit
 echo.
 set /p "input=Enter the corresponding number and press Enter: "
 
@@ -101,9 +102,10 @@ if "%input%"=="5" goto :am
 if "%input%"=="6" goto :utilities
 if "%input%"=="7" goto :jres
 if "%input%"=="8" goto :lcd
-if "%input%"=="9" goto :credits
-if "%input%"=="10" goto :licenses
-if "%input%"=="11" exit /b
+if "%input%"=="9" goto :multiver
+if "%input%"=="10" goto :credits
+if "%input%"=="11" goto :licenses
+if "%input%"=="12" exit /b
 goto :menu
 
 :am
@@ -430,6 +432,90 @@ if /i "%dg%"=="back" (
     goto :menu
 )
 goto :lcd
+
+:multiver
+call :Header
+if exist "output.txt" (
+    if exist "previous_output.txt" (
+        del "previous_output.txt"
+    )
+    ren "output.txt" "previous_output.txt"
+)
+
+curl -X POST -H "Content-Type: application/json; charset=UTF-8" -H "User-Agent: Lunar Client Launcher v3.1.0" -d "{\"version\":\"1.8.9\",\"branch\":\"master\",\"os\":\"win32\",\"arch\":\"x64\",\"launcher_version\":\"3.1.0\",\"hwid\":\"hwid-private-do-not-share\"}" "https://api.lunarclientprod.com/launcher/launch" > "output.txt" && (
+    echo Successfully requested from Lunar Client's API.
+) || (
+    echo Request unsuccessful.
+    exit /b 1
+)
+
+if exist "previous_output.txt" (    
+    fc "output.txt" "previous_output.txt" > nul
+
+    if errorlevel 1 (
+        set "LunarUpdated=true"
+    ) else (
+        set "LunarUpdated=false"
+    )
+
+    if "!LunarUpdated!"=="true" (
+	echo Lunar has updated.
+        for /f "tokens=2-4 delims=/ " %%a in ('date /t') do (
+            set "day=%%a"
+            set "month=%%b"
+            set "year=%%c"
+        )
+        for /f "tokens=1-3 delims=: " %%a in ('time /t') do (
+            set "hour=%%a"
+            set "minute=%%b"
+            set "second=%%c"
+        )
+        set "timestamp=!year!!month!!day!_!hour!!minute!!second!"
+        set "folderToBackup=%USERPROFILE%\.lunarclient\offline\multiver"
+
+        echo Creating backup: multiver !timestamp! backup.zip
+        powershell.exe -nologo -noprofile -command "Compress-Archive -Path '!folderToBackup!' -DestinationPath 'multiver !timestamp! backup.zip'" > nul
+            
+        if exist "multiver !timestamp! backup.zip" (
+            echo Backup created successfully.
+	    echo [40;31mDo not delete output.txt or previous_output.txt, this is for change detection from the API.[40;37m	
+            pause
+        ) else (
+            echo Failed to create the backup.
+            pause
+        )
+    ) else (
+        echo No update detected.
+	echo [40;31mDo not delete output.txt or previous_output.txt, this is for change detection from the API.[40;37m
+	pause
+    )
+goto :menu
+) else (
+    if exist "output.txt" (
+        for /f "tokens=2-4 delims=/ " %%a in ('date /t') do (
+            set "day=%%a"
+            set "month=%%b"
+            set "year=%%c"
+        )
+        for /f "tokens=1-3 delims=: " %%a in ('time /t') do (
+            set "hour=%%a"
+            set "minute=%%b"
+            set "second=%%c"
+        )
+        set "timestamp=!year!!month!!day!_!hour!!minute!!second!"
+        set "folderToBackup=%USERPROFILE%\.lunarclient\offline\multiver"
+
+        echo Creating backup: multiver !timestamp! backup.zip
+        powershell.exe -nologo -noprofile -command "Compress-Archive -Path '!folderToBackup!' -DestinationPath 'multiver !timestamp! backup.zip'" > nul
+            
+        if exist "multiver !timestamp! backup.zip" (
+            echo Backup created successfully.	
+	    echo [40;31mDo not delete output.txt, this is for change detection from the API.[40;37m
+            pause
+        )
+    )
+    goto :menu
+)
 
 :credits
 call :Header
