@@ -1,11 +1,14 @@
 @echo off
 setlocal EnableDelayedExpansion
 set ver=v2.4
-set lunarver=3.1.0
 set "modtargetDirectory=%userprofile%\.weave\mods"
 set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
 set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
 title lcbud %ver%
+
+for /f "tokens=2 delims=: " %%a in ('curl -s https://launcherupdates.lunarclientcdn.com/latest.yml ^| findstr "version:"') do (
+    set "lunarver=%%a"
+)
 
 for /f "tokens=2 delims=:" %%I in ('curl -s "%githubAPI%" ^| find "tag_name"') do set "latestTag=%%~I"
 set "latestTag=!latestTag:~1,-1!"
@@ -202,22 +205,29 @@ set "mods="
 call :Header
 echo   Mods:
 echo   1) Alex Fix - Fixes a bug where Alex's arms are shifted down lower than Steve's.
+echo      AlwaysSwing - Allows continuous swinging on screen when attacking, inspired by Badlion Client.
+echo      AutoCorrect - Helps you correct your spelling and grammar mistakes.
+echo      Blurer - A mod that gives you smoooooth blur effects.
 echo   2) Blood Kill Effect - Redstone particles when a player dies.
 echo   3) Cracked Account - Sail the high seas with a poor person's account.
 echo   4) Crepes - Display MinecraftCapes users' capes in-game. (ZenithCore Required)
 echo   5) Dulikk - Custom View Model
+echo      Fov Changer - Allows you to switch your FOV to whatever you want (even outside of MC's bounds)
 echo   6) FPS - Set a custom FPS limit.
 echo   7) Good Game - AutoGG for more servers.
 echo   8) GTB Solver - Guess the builder solver.
 echo   9) Hit Fire - Hitting an entity sets it on fire for 1.5 seconds.
 echo  10) Hu Tao - Draw a dancing Hu Tao on your screen.
 echo  11) Inclumsy - Spoof your ping.
+echo      InventorySnow - snow in your inventory
 echo  12) MMUtils - Hypixel Murder Mystery Utilities.
 echo  13) Name History - Check a user's name history with a command.
 echo  14) OofMod - Play a customizable sound during in-game events.
+echo      OuchMod - A Weave Mod for Lunar Client that says "ouch" in chat every time you take damage.
 echo  15) PitUtils - Hypixel Pit Utilities.
 echo  16) Projectile Trail - Creates particles behind arrows, fishing rod hooks, and throwables.
 echo  17) Raw Input (Not Needed for LCQT2)
+echo      Rod Color - Allows you to change the color of fishing lines.
 echo  18) Sulfur - A port of Phosphor.
 echo  19) Toggle Bobbing - Quickly toggle view bobbing. (ZenithCore Required)
 echo  20) Toggle Chat - Quickly toggle chat. (ZenithCore Required)
@@ -226,6 +236,7 @@ echo  22) ViaLunar - Join 1.9+ servers from LunarClient 1.8 (ZenithCore Required
 echo  23) WeaveChamsMod - Render players over blocks, see players through walls!
 echo  24) Weave Optifine URL - Specify a new URL for the Optifine cape server.
 echo  25) WeaveQuickReport - quickreport mod rewritten for Weave. Also comes with autododge.
+echo      WPK - A Weave mod implementation of MPKMod 2 mod.
 echo  26) ZenithCore - Dependency for mods.
 echo   -------------------------------------------
 echo  27) Cheats
