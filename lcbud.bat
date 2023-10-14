@@ -424,7 +424,7 @@ if /i "%dg%"=="Yes" (
     echo Press any key to continue...
     pause >nul
 
-    call :DownloadFile "https://cdn.discordapp.com/attachments/1140173680018735144/1140453928056672358/Lunar_Client_v2.16.1.zip" "LCL.zip"
+    call :DownloadFile "https://unethical.team/lunarclient/Lunar%20Client%20v2.16.1.zip" "LCL.zip"
     
     mkdir lcl
     tar -xf lcl.zip --directory ./lcl
