@@ -442,7 +442,7 @@ if /i "%dg%"=="Yes" (
     echo Press any key to continue...
     pause >nul
 
-    call :DownloadFile "https://unethical.team/lunarclient/Lunar%20Client%20v2.16.1.zip" "LCL.zip"
+    call :DownloadFile "https://unethicalcdn.com/lunarclient/Lunar%20Client%20v2.16.1.zip" "LCL.zip"
     
     mkdir lcl
     tar -xf lcl.zip --directory ./lcl
