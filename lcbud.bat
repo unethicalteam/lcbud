@@ -47,7 +47,7 @@ cls
 echo.
 echo   lcbud - Lunar Client Batch Utility Downloader: %ver%
 echo   Created by [31munethical[0m
-echo   [36mhttps://discord.gg/vhJ8Dsp9qa[0m
+echo   [36mhttps://unethical.team/discord[0m
 echo.
 goto :eof
 
