@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
-set ver=v2.4
+set ver=v2.5
 set "modtargetDirectory=%userprofile%\.weave\mods"
 set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
 set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
@@ -375,44 +375,54 @@ set "jres="
 call :Header
 echo   JREs:
 echo   1) GraalVM 17
+echo   2) Zulu 17
 echo   -------------------------------------------
-echo   2) Go Back
+echo   3) Go Back
 echo.
-set /p jres="Select an option: "
+set /p "jres=Select an option: "
 
-if "%jres%"=="1" goto :graalvmdownloader
-if "%jres%"=="2" goto :menu
+if "%jres%"=="1" set "jreName=GraalVM" & set "jreFolder=graalvm-jdk17" & set "jreZip=graalvm-jdk17.zip" & set "jreDownloadUrl=https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
+if "%jres%"=="2" set "jreName=Zulu" & set "jreFolder=zulu-jdk17" & set "jreZip=zulu-jdk17.zip" & set "jreDownloadUrl=https://cdn.azul.com/zulu/bin/zulu17.44.53-ca-jre17.0.8.1-win_x64.zip"
+if "%jres%"=="3" goto :exit
 
-:graalvmdownloader
+if not defined jreName (
+    echo Invalid option selected.
+    goto :jres
+)
+
+call :jreDownloader
+goto :jres
+
+:jreDownloader
 call :Header
 for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "outputPath=%%~I"
 
 if not defined outputPath (
     echo No folder selected.
-    goto :graalvmdownloader
+    goto :jreDownloader
 )
 
-set "folder=%outputPath%\graalvm-jdk17"
-set "zip=graalvm-jdk17.zip"
-set "downloadUrl=https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
+set "folder=%outputPath%\%jreFolder%"
+set "zip=%jreZip%"
+set "downloadUrl=%jreDownloadUrl%"
 
 if not exist "%zip%" (
-    echo Downloading GraalVM from %downloadUrl%
+    echo Downloading %jreName% from %downloadUrl%
     call :DownloadFile "%downloadUrl%" "%zip%"
     if errorlevel 1 (
-        echo Failed to download GraalVM!
-        goto :jres
+        echo Failed to download %jreName%!
+        goto :menu
     )
 )
 
-echo Extracting GraalVM to the specified folder...
+echo Extracting %jreName% to the specified folder...
 mkdir "%folder%" 2>nul
 tar -xzf "%zip%" -C "%folder%" --strip-components=1
 del "%zip%" > nul 2>&1
 
 echo Completed!
 timeout /t 2 > nul
-goto :jres
+goto :eof
 
 :lcd
 call :Header
