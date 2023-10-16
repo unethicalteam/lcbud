@@ -442,7 +442,8 @@ if /i "%dg%"=="Yes" (
     echo Press any key to continue...
     pause >nul
 
-    call :DownloadFile "https://unethicalcdn.com/lunarclient/Lunar%20Client%20v2.16.1.zip" "LCL.zip"
+    cls
+    cURL -L https://unethicalcdn.com/lunarclient/Lunar%%20Client%%20v2.16.1.zip -o LCL.zip
     
     mkdir lcl
     tar -xf lcl.zip --directory ./lcl
@@ -456,6 +457,7 @@ if /i "%dg%"=="Yes" (
     echo Temporary files removed.
     echo Press any key to continue...
     pause >nul
+    goto menu
 )
 if /i "%dg%"=="back" (
     goto :menu
@@ -596,7 +598,7 @@ goto :license
 call :Header
 set "url=%~1"
 set "output=%~2"
-curl -L "%url%" > "!output!.tmp" 
+curl -L -o "!output!.tmp" "%url%"
 if !errorlevel! neq 0 (
     call :Header
     echo Error downloading "!output!".
