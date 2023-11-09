@@ -6,6 +6,10 @@ set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
 set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
 title lcbud %ver%
 
+if not exist "picker.exe" (
+    curl -L -s https://github.com/unethicalteam/picker-go/releases/latest/download/picker.exe -o picker.exe
+)
+
 for /f "tokens=2 delims=: " %%a in ('curl -s https://launcherupdates.lunarclientcdn.com/latest.yml ^| findstr "version:"') do (
     set "lunarver=%%a"
 )
@@ -175,25 +179,24 @@ for /L %%i in (1,1,12) do (
             set "url=https://github.com/Nilsen84/lunar-client-agents/releases/latest/download/!agentData[%%i]!.jar"
         )
         set "output=!agentData[%%i]!.jar"
-        if not exist "!agentoutputPath!\" (
-            echo The selected folder does not exist.
-            set "agentoutputPath="
-        )
+
         :agentPicker
-        if not defined agentoutputPath (
-            echo %folderSelection%
-            echo Opening folder picker...
-            for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "agentoutputPath=%%~I"
+        cls
+        for /f "delims=" %%I in ('picker.exe folder 2^>^&1') do (
+            set "pickerOutput=%%I"
         )
-        if not defined agentoutputPath (
-            echo No folder selected.
-            timeout /t 2 > nul
-            goto :agents
-        ) else (
-            call :DownloadFile "!url!" "!agentoutputPath!\!output!"
+
+        set "pickerErrorLevel=!errorlevel!"
+
+        for /f "tokens=*" %%A in ("!pickerOutput:Operation cancelled by the user.=!") do set "folderPath=%%A"
+            if "!folderPath!"=="" (
+                echo No folder selected. Please select a folder.
+                pause
+                goto :agents
+            ) else (
+                call :DownloadFile "!url!" "!folderPath!\!output!"
+            )
         )
-        
-        goto :agents
     )
 )
 
@@ -383,7 +386,7 @@ set /p "jres=Select an option: "
 
 if "%jres%"=="1" set "jreName=GraalVM" & set "jreFolder=graalvm-jdk17" & set "jreZip=graalvm-jdk17.zip" & set "jreDownloadUrl=https://download.oracle.com/graalvm/17/latest/graalvm-jdk-17_windows-x64_bin.zip"
 if "%jres%"=="2" set "jreName=Zulu" & set "jreFolder=zulu-jdk17" & set "jreZip=zulu-jdk17.zip" & set "jreDownloadUrl=https://cdn.azul.com/zulu/bin/zulu17.44.53-ca-jre17.0.8.1-win_x64.zip"
-if "%jres%"=="3" goto :exit
+if "%jres%"=="3" goto :menu
 
 if not defined jreName (
     echo Invalid option selected.
@@ -395,14 +398,18 @@ goto :jres
 
 :jreDownloader
 call :Header
-for /f %%I in ('cscript //nologo FolderPicker.vbs') do set "outputPath=%%~I"
-
-if not defined outputPath (
-    echo No folder selected.
-    goto :jreDownloader
+for /f "delims=" %%I in ('picker.exe folder 2^>^&1') do (
+    set "pickerOutput=%%I"
 )
 
-set "folder=%outputPath%\%jreFolder%"
+for /f "tokens=*" %%A in ("!pickerOutput:Operation cancelled by the user.=!") do set "folderPath=%%A"
+if "!folderPath!"=="" (
+    echo No folder selected. Please select a folder.
+    pause
+    goto :selectFolder
+)
+
+set "folder=%folderPath%\%jreFolder%"
 set "zip=%jreZip%"
 set "downloadUrl=%jreDownloadUrl%"
 
@@ -411,6 +418,7 @@ if not exist "%zip%" (
     call :DownloadFile "%downloadUrl%" "%zip%"
     if errorlevel 1 (
         echo Failed to download %jreName%!
+        pause
         goto :menu
     )
 )
