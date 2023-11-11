@@ -182,7 +182,7 @@ for /L %%i in (1,1,12) do (
 
         :agentPicker
         cls
-        for /f "delims=" %%I in ('picker.exe folder 2^>^&1') do (
+        for /f "delims=" %%I in ('picker.exe -mode folder 2^>^&1') do (
             set "pickerOutput=%%I"
         )
 
@@ -372,7 +372,7 @@ goto :jres
 
 :jreDownloader
 call :Header
-for /f "delims=" %%I in ('picker.exe folder 2^>^&1') do (
+for /f "delims=" %%I in ('picker.exe -mode folder 2^>^&1') do (
     set "pickerOutput=%%I"
 )
 
