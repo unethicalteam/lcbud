@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
-set ver=v2.5.1
+set ver=v2.5.2
 set "modtargetDirectory=%userprofile%\.weave\mods"
 set "githubAPI=https://api.github.com/repos/unethicalteam/lcbud/releases/latest"
 set "githubURL=https://github.com/unethicalteam/lcbud/releases/latest"
@@ -67,12 +67,12 @@ echo   4) Download Weave Loader
 echo   5) Download Agents / Mods
 echo   6) Download Utilities
 echo   7) Download JREs
-echo   8) Downgrade Lunar Client Launcher to 2.16.1
-echo   9) Backup multiver
+::echo   8) Downgrade Lunar Client Launcher to 2.16.1
+echo   8) Backup multiver
 echo   -------------------------------------------
-echo  10) View Credits
-echo  11) View License
-echo  12) Exit
+echo  9) View Credits
+echo  10) View License
+echo  11) Exit
 echo.
 set /p "input=Enter the corresponding number and press Enter: "
 
@@ -108,11 +108,11 @@ for %%i in (1 2 3 4) do (
 if "%input%"=="5" goto :am
 if "%input%"=="6" goto :utilities
 if "%input%"=="7" goto :jres
-if "%input%"=="8" goto :lcd
-if "%input%"=="9" goto :multiver
-if "%input%"=="10" goto :credits
-if "%input%"=="11" goto :licenses
-if "%input%"=="12" exit /b
+::if "%input%"=="8" goto :lcd
+if "%input%"=="8" goto :multiver
+if "%input%"=="9" goto :credits
+if "%input%"=="10" goto :licenses
+if "%input%"=="11" exit /b
 goto :menu
 
 :am

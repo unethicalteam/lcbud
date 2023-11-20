@@ -13,7 +13,7 @@
 
   ### Core Capabilities
   - **Comprehensive Solution**: All-in-one utility for your Lunar Client needs.
-  - **Launcher Downgrading**: Downgrade your Lunar Client Launcher to version 2.16.1.
+<!--  - **Launcher Downgrading**: Downgrade your Lunar Client Launcher to version 2.16.1. -->
   - **multiver Backups**: Backup multiple versions effortlessly.
   
 </details>
